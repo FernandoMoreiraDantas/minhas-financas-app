@@ -18,11 +18,11 @@ class Login extends React.Component{
         return(
            <div className="container">
                <div className="row">
-                   <div className="col-md-3" style={ {position:'relative',left:'300px'} }>
+                   <div className="col-md-6" style={ {position:'relative',left:'300px'} }>
                         <div className="bs-docs-section">
                             <Card title="Login">
                                <div className="row">
-                                    <div className="col-kg-12">
+                                    <div className="col-lg-12"> 
                                             <div className="bs-Component">
                                                 <fieldset>
                                                     <FormGroup label="Email:*" htmlFor="exampleInputEmail1">
@@ -35,6 +35,7 @@ class Login extends React.Component{
                                                                placeholder="Digite o e-mail"/>
 
                                                     </FormGroup>
+                                                    <br/>
                                                     <FormGroup label="Senha:*" htmlFor="exampleInputPassword1">
                                                         <input type="password" 
                                                                value={this.senha}
@@ -45,6 +46,7 @@ class Login extends React.Component{
                                                                placeholder="Password"/>
 
                                                     </FormGroup>
+                                                    <br/>
                                                     <button onClick={this.entrar} className="btn btn-success">Entrar</button>
                                                     <button className="btn btn-danger">Cadastrar</button>
                                                 </fieldset>
