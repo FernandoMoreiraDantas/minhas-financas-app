@@ -2,9 +2,15 @@ import React from "react";
 import Card from "../components/card";
 import FormGroup from "../components/form-groups";
 import {withRouter} from "react-router-dom";
-import axios from "axios";
+import UsuarioService from "../app/service/usuarioService";
+import LocalStoregeService from "../app/service/localstoregeService";
 
 class Login extends React.Component{
+
+    constructor(){
+        super();
+        this.service = new UsuarioService();
+    }
 
     state={
         email:'',
@@ -12,14 +18,14 @@ class Login extends React.Component{
         mensagemErro:null
     }
 
-    entrar = () =>{
-        axios
-            .post('http://192.168.1.6:8080/api/usuarios/autenticar',{email:this.state.email, senha:this.state.senha})
-            .then(response =>{
-                localStorage.setItem('_usuario_logado',JSON.stringify(response.data))
-               this.props.history.push('/home')
-            }).catch(erro =>{
-               this.setState({mensagemErro:erro.response.data})
+    entrar = () => {
+
+        this.service.autenticar({ email: this.state.email, senha: this.state.senha })
+            .then(response => {
+                LocalStoregeService.adicionarItem('_usuario_logado',response.data)
+                this.props.history.push('/home')
+            }).catch(erro => {
+                this.setState({ mensagemErro: erro.response.data })
             })
     }
     prepareCadastrar = () =>{
