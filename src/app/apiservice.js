@@ -2,7 +2,7 @@ import axios from "axios";
 
 const httpCliente = axios.create(
     {
-        baseURL:'http://192.168.1.6:8080'
+        baseURL:'http://127.0.0.1:8080'
     }
 
 )
