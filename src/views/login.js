@@ -43,23 +43,23 @@ class Login extends React.Component{
                                     <div className="col-lg-12"> 
                                             <div className="bs-Component">
                                                 <fieldset>
-                                                    <FormGroup label="Email:*" htmlFor="exampleInputEmail1">
+                                                    <FormGroup label="Email:*" htmlFor="email">
                                                         <input type="email" 
                                                         value={this.state.email}
                                                                onChange={e => this.setState({email:e.target.value})} 
                                                                className="form-control"
-                                                               id="exampleInputEmail1"
+                                                               id="email"
                                                                aria-describedby="emailHelp"
                                                                placeholder="Digite o e-mail"/>
 
                                                     </FormGroup>
                                                     <br/>
-                                                    <FormGroup label="Senha:*" htmlFor="exampleInputPassword1">
+                                                    <FormGroup label="Senha:*" htmlFor="senha">
                                                         <input type="password" 
                                                                value={this.senha}
                                                                onChange={e => this.setState({senha:e.target.value})}
                                                                className="form-control"
-                                                               id="exampleInputEmail1"
+                                                               id="senha"
                                                                aria-describedby="emailHelp"
                                                                placeholder="Password"/>
 
