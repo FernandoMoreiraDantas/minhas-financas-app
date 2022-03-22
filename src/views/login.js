@@ -4,6 +4,7 @@ import FormGroup from "../components/form-groups";
 import {withRouter} from "react-router-dom";
 import UsuarioService from "../app/service/usuarioService";
 import LocalStoregeService from "../app/service/localstoregeService";
+import {mensagemErro} from '../components/toastr'
 
 class Login extends React.Component{
 
@@ -14,8 +15,7 @@ class Login extends React.Component{
 
     state={
         email:'',
-        senha:'',
-        mensagemErro:null
+        senha:''
     }
 
     entrar = () => {
@@ -25,7 +25,7 @@ class Login extends React.Component{
                 LocalStoregeService.adicionarItem('_usuario_logado',response.data)
                 this.props.history.push('/home')
             }).catch(erro => {
-                this.setState({ mensagemErro: erro.response.data })
+                mensagemErro(erro.response.data)
             })
     }
     prepareCadastrar = () =>{
@@ -39,7 +39,6 @@ class Login extends React.Component{
                         <div className="bs-docs-section">
                             <Card title="Login">
                                <div className="row">
-                                   <span>{this.state.mensagemErro}</span>
                                     <div className="col-lg-12"> 
                                             <div className="bs-Component">
                                                 <fieldset>
