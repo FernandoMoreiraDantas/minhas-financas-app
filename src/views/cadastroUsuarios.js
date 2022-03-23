@@ -21,7 +21,43 @@ class CadastroUsuario extends React.Component {
         this.service = new UsuarioService();
     }
 
+    validar(){
+        const msgs = []
+        if(!this.state.nome){
+            msgs.push('O campo Nome é obrigatório.')
+        }
+
+        if(!this.state.email){
+            msgs.push('O campo E-mail é obrigatório.')
+        }else if(!this.state.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
+            msgs.push('Informe um e-mail válido.')
+        }
+
+        if(!this.state.senha){
+            msgs.push('Informe a Senha.')
+        }
+
+        if(!this.state.senhaRepeticao){
+            msgs.push('Informe a Confirmação de senha.')
+        }
+
+
+        if(this.state.senha && this.state.senhaRepeticao && this.state.senha !== this.state.senhaRepeticao){
+            msgs.push('As senhas não Conferem.')
+        }
+
+        return msgs
+    }
+
+
     cadastrar = () => {
+        const msgs = this.validar();
+        if (msgs && msgs.length > 0) {
+            msgs.forEach((msg, index) => {
+                mensagemErro(msg)
+            });
+            return false;
+        }
         const usuario = {
             nome: this.state.nome,
             email: this.state.email,
@@ -83,7 +119,7 @@ class CadastroUsuario extends React.Component {
                                 <br />
                                 <FormGroup label="Confirme a Senha:*" htmlFor="inputSenhaRepetida">
                                     <input type="password"
-                                        value={this.senha}
+                                        value={this.senhaRepeticao}
                                         className="form-control"
                                         id="inputSenhaRepetida"
                                         placeholder="Confirme a senha"
