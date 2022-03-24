@@ -3,7 +3,7 @@ import {Route,Switch,HashRouter} from "react-router-dom";
 import CadastroUsuario from "../views/cadastroUsuarios";
 import Home from "../views/home";
 import Login from "../views/login";
-import ConsultaLancamentos from "../views/consultaLancamento";
+import ConsultaLancamentos from "../views/lancamentos/consultaLancamento";
 function Rotas(){
     return(
         <HashRouter>
@@ -16,5 +16,5 @@ function Rotas(){
         </HashRouter>
     )
 }
-
+ 
 export default Rotas
