@@ -6,13 +6,15 @@ import SelectMenu from "../../components/select-menu";
 import LancamentosTable from "./lancamentosTable";
 import LancamentoService from "../../app/service/lancamentoService";
 import LocalStoregeService from "../../app/service/localstoregeService";
+import * as messages from "../../components/toastr"
 
 class ConsultaLancamentos extends React.Component{
 
     state = {
         ano:'',
         mes:'',
-        tipo:'',
+        tipo:undefined,
+        descricao:'',
         lancamentos : []
     }
 
@@ -23,13 +25,19 @@ class ConsultaLancamentos extends React.Component{
 
     buscar = () =>{
 
+        if(!this.state.ano){
+            messages.mensagemErro("O Preenchimento do campo Ano é Obrigatório.");
+            return false;
+        }
+
         const usuarioLogado = LocalStoregeService.obterItem('_usuario_logado')
 
        const lancamentoFitro = {
            ano: this.state.ano,
            mes: this.state.mes,
            tipo: this.state.tipo,
-           usuario: usuarioLogado.id
+           usuario: usuarioLogado.id,
+           descricao:this.state.descricao
        }
 
        this.service
@@ -42,28 +50,30 @@ class ConsultaLancamentos extends React.Component{
 
     }
 
+    editar = (id) => {
+        console.log('Editando o Lançamento',id);
+    }
+
+    deletar = (lancamento) =>{
+       this.service
+            .deletar(lancamento.id)
+            .then(response => {
+                const lancamentos = this.state.lancamentos;
+                console.log(lancamentos);
+                const index = lancamentos.indexOf(lancamento);
+                console.log(index);
+                lancamentos.splice(index,1);
+                this.setState(lancamentos);
+                messages.mensagemSucesso('Lançamento deletado com Sucesso.!');
+            }).catch(error =>{
+                messages.mensagemErro("Erro ao Excluir o Lançamento");
+            })
+    }
+
     render(){
 
-        const listaMeses=[
-            {label:'Selecione',value:''},
-            {label:'Janeiro',value:'1'},
-            {label:'Fevereiro',value:'2'},
-            {label:'Março',value:'3'},
-            {label:'Abril',value:'4'},
-            {label:'Maio',value:'5'},
-            {label:'Junho',value:'6'},
-            {label:'Julho',value:'7'},
-            {label:'Agosto',value:'8'},
-            {label:'Setembro',value:'9'},
-            {label:'Outrubro',value:'10'},
-            {label:'Novembro',value:'11'},
-            {label:'Dezembro',value:'12'}
-        ]
-        const listaTipo=[
-            {label:'Selecione',value:''},
-            {label:'Receita',value:'RECEITA'},
-            {label:'Despesa',value:'DESPESA'}
-        ]
+        const listaMeses = this.service.obterListaMeses();
+        const listaTipo = this.service.obterListaTipos();
 
        
         return(
@@ -90,6 +100,16 @@ class ConsultaLancamentos extends React.Component{
                                 lista = {listaMeses}/>
                             </FormGroup>
                             <br/>
+                            <FormGroup label="Descrição:" htmlFor="inputDesc">
+                                <input type="text"
+                                    className="form-control"
+                                    id="inputDesc"
+                                    value={this.state.descricao}
+                                    onChange = {e => this.setState({ descricao: e.target.value })}
+                                    placeholder="Informe a descrição"
+                                    name="desc" />
+                            </FormGroup>
+                            <br/>
                             <FormGroup label="Tipo Lançamento:" htmlFor="inputTipo">
                                 <SelectMenu id="inputTipo" 
                                 className="form-control" 
@@ -110,7 +130,10 @@ class ConsultaLancamentos extends React.Component{
             <div className="row">
                 <div className="col-md-12">
                     <div className="bs-component">
-                        <LancamentosTable lancamentos={this.state.lancamentos}/>
+                        <LancamentosTable 
+                            lancamentos={this.state.lancamentos}
+                            deleteAction={this.deletar}
+                            editAction={this.editar}/>
                     </div>
                 </div>
             </div>
