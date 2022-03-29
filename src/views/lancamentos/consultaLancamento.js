@@ -27,6 +27,10 @@ class ConsultaLancamentos extends React.Component{
         this.service = new LancamentoService();
     }
 
+    prepareCadastrar = () =>{
+        this.props.history.push('/cadastro-lancamentos');
+      }
+
     buscar = () =>{
 
         if(!this.state.ano){
@@ -34,7 +38,7 @@ class ConsultaLancamentos extends React.Component{
             return false;
         }
 
-        const usuarioLogado = LocalStoregeService.obterItem('_usuario_logado')
+        const usuarioLogado = LocalStoregeService.obterItem('_usuario_logado');
 
        const lancamentoFitro = {
            ano: this.state.ano,
@@ -139,7 +143,7 @@ class ConsultaLancamentos extends React.Component{
                             </FormGroup>
                             <br/>
                             <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
-                            <button className="btn btn-danger">Cadastrar</button>                            
+                            <button className="btn btn-danger" onClick={this.prepareCadastrar}>Cadastrar</button>                            
                             
                            
                         </fieldset>
