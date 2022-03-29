@@ -7,6 +7,8 @@ import LancamentosTable from "./lancamentosTable";
 import LancamentoService from "../../app/service/lancamentoService";
 import LocalStoregeService from "../../app/service/localstoregeService";
 import * as messages from "../../components/toastr"
+import { Dialog } from 'primereact/dialog';
+import {Button} from 'primereact/button'
 
 class ConsultaLancamentos extends React.Component{
 
@@ -15,6 +17,8 @@ class ConsultaLancamentos extends React.Component{
         mes:'',
         tipo:undefined,
         descricao:'',
+        showConfirmDialog:false,
+        lancamentoDeletar:{},
         lancamentos : []
     }
 
@@ -54,16 +58,25 @@ class ConsultaLancamentos extends React.Component{
         console.log('Editando o Lançamento',id);
     }
 
-    deletar = (lancamento) =>{
+    abrirConfirmacao = (lancamento) =>{
+        this.setState({showConfirmDialog:true,lancamentoDeletar:lancamento});
+    }
+
+    cancelarDelecao = ()=>{
+        this.setState({showConfirmDialog:false, lancamentoDeletar:{}})
+    }
+
+
+    deletar = () =>{
        this.service
-            .deletar(lancamento.id)
+            .deletar(this.state.lancamentoDeletar.id)
             .then(response => {
                 const lancamentos = this.state.lancamentos;
                 console.log(lancamentos);
-                const index = lancamentos.indexOf(lancamento);
+                const index = lancamentos.indexOf(this.state.lancamentoDeletar);
                 console.log(index);
                 lancamentos.splice(index,1);
-                this.setState(lancamentos);
+                this.setState({lancamentos:lancamentos,showConfirmDialog:false});
                 messages.mensagemSucesso('Lançamento deletado com Sucesso.!');
             }).catch(error =>{
                 messages.mensagemErro("Erro ao Excluir o Lançamento");
@@ -74,6 +87,13 @@ class ConsultaLancamentos extends React.Component{
 
         const listaMeses = this.service.obterListaMeses();
         const listaTipo = this.service.obterListaTipos();
+
+        const confirmDialogfooter = (
+            <div>
+                <Button label="Confirmar" icon="pi pi-check" onClick={this.deletar} />
+                <Button label="Cancelar" icon="pi pi-times" onClick={this.cancelarDelecao} />
+            </div>
+        );
 
        
         return(
@@ -132,10 +152,20 @@ class ConsultaLancamentos extends React.Component{
                     <div className="bs-component">
                         <LancamentosTable 
                             lancamentos={this.state.lancamentos}
-                            deleteAction={this.deletar}
+                            deleteAction={this.abrirConfirmacao}
                             editAction={this.editar}/>
                     </div>
                 </div>
+            </div>
+            <div>
+                    <Dialog header="Confirmação"
+                        visible={this.state.showConfirmDialog} 
+                        style={{ width: '50vw' }}
+                        footer={confirmDialogfooter}
+                        modal={true}
+                        onHide={() => this.setState({showConfirmDialog:false})}>
+                        Confirma a exclusão deste Lançamento?
+                    </Dialog>
             </div>
         </Card>
 
