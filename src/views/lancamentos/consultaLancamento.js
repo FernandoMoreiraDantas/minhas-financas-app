@@ -27,18 +27,16 @@ class ConsultaLancamentos extends React.Component{
         this.service = new LancamentoService();
     }
 
+    componentDidMount(){
+        this.buscar();
+    }
+
     prepareCadastrar = () =>{
-        this.props.history.push('/cadastro-lancamentos');
+        this.props.history.push('/cadastro-lancamentos/');
       }
 
-    buscar = () =>{
-
-        if(!this.state.ano){
-            messages.mensagemErro("O Preenchimento do campo Ano é Obrigatório.");
-            return false;
-        }
-
-        const usuarioLogado = LocalStoregeService.obterItem('_usuario_logado');
+    buscar = () =>{  
+       const usuarioLogado = LocalStoregeService.obterItem('_usuario_logado');
 
        const lancamentoFitro = {
            ano: this.state.ano,
@@ -59,7 +57,7 @@ class ConsultaLancamentos extends React.Component{
     }
 
     editar = (id) => {
-        console.log('Editando o Lançamento',id);
+       this.props.history.push(`/cadastro-lancamentos/${id}`)
     }
 
     abrirConfirmacao = (lancamento) =>{
@@ -143,6 +141,7 @@ class ConsultaLancamentos extends React.Component{
                             </FormGroup>
                             <br/>
                             <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
+                            &nbsp;
                             <button className="btn btn-danger" onClick={this.prepareCadastrar}>Cadastrar</button>                            
                             
                            

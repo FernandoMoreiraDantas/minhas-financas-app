@@ -20,6 +20,8 @@ class ApiService{
 
     put(url,objeto){
         const requestURl = `${this.apiurl}${url}`
+        console.log(requestURl);
+        console.log(objeto);
         return httpCliente.put(requestURl,objeto);
     }
 
