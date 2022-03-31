@@ -56,9 +56,7 @@ class CadastroLancamentos extends React.Component {
             this.service.validar(lancamento);
         } catch (erro) {
             const mensagens = erro.mensagens;
-            mensagens.forEach(msg => {
-                    messages.mensagemErro(msg)
-            });
+            mensagens.forEach(msg => messages.mensagemErro(msg));
             return false;
         }
 
