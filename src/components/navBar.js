@@ -1,18 +1,10 @@
 import React from "react";
 import NavBarItem from "./navBarItem";
-import AuthService from "../app/service/authService";
 import { AuthConsumer } from "../main/provedorAutenticacao";
 
 
-const deslogar = () =>{
-    AuthService.removerUsuarioAutenticado();
-}
-
-const isUsuarioAutenticado = () =>{
-   return  AuthService.isUsuarioAutenticado();
-}
-
 function NavBar(props) {
+    console.log(props);
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
             <div className="">
@@ -30,7 +22,7 @@ function NavBar(props) {
                         <NavBarItem render={props.isUsuarioAutenticado} href="#/home" label="Home" />
                         <NavBarItem render={props.isUsuarioAutenticado} href="#cadastro-usuarios" label="Usuários" />
                         <NavBarItem render={props.isUsuarioAutenticado} href="#/consulta-lancamentos" label="Lançamentos" />
-                        <NavBarItem render={props.isUsuarioAutenticado} onClick={deslogar} href="#login" label="Sair" />
+                        <NavBarItem render={props.isUsuarioAutenticado} onClick={props.deslogar} href="#login" label="Sair" />
                     </ul>
                 </div>
             </div>
@@ -38,10 +30,10 @@ function NavBar(props) {
     )
 }
 
-export default () =>(
+export default () => (
     <AuthConsumer>
         {(context) => (
-            <NavBar isUsuarioAutenticado={context.isAutenticado} deslogar={context.encerrarSessao}/>
+            <NavBar isUsuarioAutenticado={context.isAutenticado} deslogar = {context.encerrarSessao}/>
         )}
     </AuthConsumer>
 )

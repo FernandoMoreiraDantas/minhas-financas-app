@@ -10,7 +10,6 @@ export default  class AuthService{
     }
 
     static removerUsuarioAutenticado(){
-        console.log('remover usuario logado');
         LocalStoregeService.removerItem(USUARIO_LOGADO);
     }
 
