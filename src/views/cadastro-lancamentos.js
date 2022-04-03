@@ -82,7 +82,7 @@ class CadastroLancamentos extends React.Component {
         } catch (erro) {
             const mensagens = erro.mensagens;
             mensagens.forEach(msg => {
-                    messages.mensagemErro(msg)
+                messages.mensagemErro(msg)
             });
             return false;
         }
@@ -181,11 +181,20 @@ class CadastroLancamentos extends React.Component {
                     <div className="col-md-6">
                         {this.state.atualizando
                             ?
-                            (<button className="btn btn-primary" onClick={this.alterar}>Atualizar</button>)
-                            : (<button className="btn btn-success" onClick={this.salvar}>Salvar</button>)
+                            (<button className="btn btn-primary"
+                                     onClick={this.alterar}>
+                                    <i className="pi pi-refresh" /> Atualizar
+                            </button>)
+                            : (<button className="btn btn-success" 
+                                        onClick={this.salvar}>
+                                        <i className="pi pi-save" /> Salvar
+                            </button>)
 
                         }
-                        <button className="btn btn-danger" onClick={e => this.props.history.push('/consulta-lancamentos')}>Cancelar</button>
+                            <button className="btn btn-danger" 
+                                onClick={e => this.props.history.push('/consulta-lancamentos')}>
+                                <i className="pi pi-times"/>Cancelar
+                            </button>
                     </div>
                 </div>
             </Card>

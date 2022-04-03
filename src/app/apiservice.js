@@ -13,15 +13,12 @@ class ApiService{
     }
 
     post(url,objeto){
-        const requestURl = `${this.apiurl}${url}`
-        console.log(objeto);
+        const requestURl = `${this.apiurl}${url}`       
         return httpCliente.post(requestURl,objeto);
     }
 
     put(url,objeto){
-        const requestURl = `${this.apiurl}${url}`
-        console.log(requestURl);
-        console.log(objeto);
+        const requestURl = `${this.apiurl}${url}`       
         return httpCliente.put(requestURl,objeto);
     }
 

@@ -3,8 +3,8 @@ import Card from "../components/card";
 import FormGroup from "../components/form-groups";
 import {withRouter} from "react-router-dom";
 import UsuarioService from "../app/service/usuarioService";
-import LocalStoregeService from "../app/service/localstoregeService";
 import {mensagemErro} from '../components/toastr'
+import { AuthContext } from "../main/provedorAutenticacao";
 
 class Login extends React.Component{
 
@@ -22,7 +22,7 @@ class Login extends React.Component{
 
         this.service.autenticar({ email: this.state.email, senha: this.state.senha })
             .then(response => {
-                LocalStoregeService.adicionarItem('_usuario_logado',response.data)
+                this.context.iniciarSessao(response.data)                
                 this.props.history.push('/home')
             }).catch(erro => {
                 mensagemErro(erro.response.data)
@@ -64,8 +64,14 @@ class Login extends React.Component{
 
                                                     </FormGroup>
                                                     <br/>
-                                                    <button onClick={this.entrar} className="btn btn-success">Entrar</button>
-                                                    <button onClick={this.prepareCadastrar} className="btn btn-danger">Cadastrar</button>
+                                                    <button onClick={this.entrar} 
+                                                            className="btn btn-success">
+                                                               <i className="pi pi-sign-in"/> Entrar
+                                                    </button>
+                                                    <button onClick={this.prepareCadastrar} 
+                                                            className="btn btn-danger">
+                                                                 <i className="pi pi-plus"/> Cadastrar
+                                                    </button>
                                                 </fieldset>
                                             </div>
                                     </div>
@@ -78,5 +84,7 @@ class Login extends React.Component{
         )
     }
 }
+
+Login.contextType = AuthContext;
 
 export default withRouter(Login)
