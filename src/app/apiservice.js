@@ -2,7 +2,7 @@ import axios from "axios";
 
 const httpCliente = axios.create(
     {
-        baseURL:'http://127.0.0.1:8080'
+        baseURL:'https://fmd-financas-api.herokuapp.com'
     }
 
 )
