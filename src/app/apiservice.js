@@ -2,7 +2,7 @@ import axios from "axios";
 
 const httpCliente = axios.create(
     {
-        baseURL:'https://fmd-financas-api.herokuapp.com'
+        baseURL:'http://127.0.0.1:8080/',withCredentials:true
     }
 
 )
@@ -10,6 +10,12 @@ const httpCliente = axios.create(
 class ApiService{
     constructor(apiurl){
         this.apiurl = apiurl;
+    }
+
+    static registrarToken(token){
+        if(token){
+            httpCliente.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        }
     }
 
     post(url,objeto){

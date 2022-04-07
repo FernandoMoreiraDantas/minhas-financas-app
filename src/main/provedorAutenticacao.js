@@ -2,6 +2,8 @@ import React from "react";
 
 import AuthService from "../app/service/authService";
 
+import ApiService from "../app/apiservice";
+
 
 export const AuthContext = React.createContext();
 export const AuthConsumer = AuthContext.Consumer;
@@ -14,9 +16,11 @@ class ProvedorAutenticacao extends React.Component{
         isAutenticado:false
     }
 
-    iniciarSessao = (usuario) =>{
-        AuthService.logar(usuario);
-        this.setState({isAutenticado:true,usuarioAutenticado:usuario})
+    iniciarSessao = (tokenDto) =>{
+        const token = tokenDto.token
+        ApiService.registrarToken(token);
+        AuthService.logar(tokenDto);
+        this.setState({isAutenticado:true,usuarioAutenticado:tokenDto})
     }
 
     encerrarSessao = () =>{
