@@ -1,8 +1,11 @@
 import axios from "axios";
 
+const baseURL = process.env.REACT_APP_API_URL
+console.log('Base URL:', baseURL);
+
 const httpCliente = axios.create(
-    {
-        baseURL:'http://127.0.0.1:8080/',withCredentials:true
+    {   
+        baseURL:baseURL,withCredentials:true
     }
 
 )

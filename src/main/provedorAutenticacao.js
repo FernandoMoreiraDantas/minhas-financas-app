@@ -18,14 +18,26 @@ class ProvedorAutenticacao extends React.Component{
 
     iniciarSessao = (tokenDto) =>{
         const token = tokenDto.token
-        ApiService.registrarToken(token);
-        AuthService.logar(tokenDto);
+        AuthService.logar(tokenDto,token);
         this.setState({isAutenticado:true,usuarioAutenticado:tokenDto})
     }
 
     encerrarSessao = () =>{
         AuthService.removerUsuarioAutenticado();
         this.setState({isAutenticado: false, usuarioAutenticado: null})
+    }
+
+
+    componentDidMount(){
+        const isAutenticado = AuthService.isUsuarioAutenticado();
+        console.log("Usuario Autenticado?", isAutenticado);
+        if(isAutenticado){
+            const usuario = AuthService.refreshSesion();
+            this.setState({
+                isAutenticado:true,
+                usuarioAutenticado:usuario
+            })
+        }
     }
 
 
