@@ -1,11 +1,8 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_API_URL
-console.log('Base URL:', baseURL);
-
 const httpCliente = axios.create(
     {   
-        baseURL:baseURL,withCredentials:true
+        baseURL:'https://fmd-financas-api.herokuapp.com',withCredentials:true
     }
 
 )
