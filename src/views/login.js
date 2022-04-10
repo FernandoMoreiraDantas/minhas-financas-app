@@ -19,6 +19,22 @@ class Login extends React.Component{
     }
 
     entrar = () => {
+        if(!this.state.email){
+            mensagemErro('Informe o e-mail');
+            return false;
+        }
+
+        if(!this.state.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
+            mensagemErro('Informe um e-mail válido.');
+            return false;
+        }
+
+        if(!this.state.senha){
+            mensagemErro('Informe a Sennha');
+            return false;
+        }
+
+
 
         this.service.autenticar({ email: this.state.email, senha: this.state.senha })
             .then(response => {
